@@ -2,6 +2,7 @@ import requests,re,os,json
 from pyquery import PyQuery as pq
 from lxml import etree
 import time
+import sys
 from selenium import webdriver
 
 def gethtml(url):
