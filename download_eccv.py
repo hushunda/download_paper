@@ -4,6 +4,7 @@ from lxml import etree
 import time
 import sys
 from selenium import webdriver
+from multiprocessing.pool import Pool
 
 def gethtml(url):
     brower = webdriver.Firefox()
@@ -16,15 +17,17 @@ def getpdf(html,root_path):
     base_url='https://openaccess.thecvf.com/'
     title=html.xpath('//dl/dt/a/text()')
     print(len(title))
-    for i in range(0,len(title)):
-        url=base_url+indexs[i]
-        print(url)
-        #print(title[i])
-        writepdf(url,title[i],root_path)
+    l=len(title)
+    url = [base_url + x for x in indexs[1:]]
+    pool = Pool(processes=16)
+    pool.map(writepdf,zip(url,title, [root_path]*l))
 
-def writepdf(url,title,root_path):
+
+def writepdf(info):
+    url, title, root_path = info
+    url = url+ title
     response=requests.get(url)
-    PDF_path=root_path+os.path.sep+'{0}.{1}'.format(title.replace(':','').replace('?',''),'pdf')
+    PDF_path=root_path+os.path.sep+'{0}.{1}'.format(title.replace(':','').replace('?','').replace('/',' '),'pdf')
     if not os.path.exists(PDF_path):
         with open(PDF_path,'wb') as f:
             print('正在抓取：'+title)
@@ -34,11 +37,11 @@ def writepdf(url,title,root_path):
     else:
         print('已下载: '+title)
 if __name__=='__main__':
-    if (sys.argv)==2:
-        save_root = sys.argv[1]
+    if len(sys.argv)==2:
+        url = sys.argv[1]
     else:
-        save_root = '../paper'
-    url='https://openaccess.thecvf.com/ECCV2018'
+        url='https://openaccess.thecvf.com/ECCV2019'
+    save_root = 'paper'
     folder = url.split('/')[-1]
     root_path = os.path.join(save_root, folder)
     if not os.path.exists(root_path):
