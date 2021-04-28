@@ -29,7 +29,7 @@ def writepdf(info):
     url, title, root_path = info
     title = title.strip('\n')
     root_path = os.path.join(root_path,url.split('/')[-4])
-    if not os.path.exists(root_path):os.makedirs(root_path)
+    if not os.path.exists(root_path):os.makedirs(root_path,exist_ok=True)
 
     print(url, title, root_path)
     response=requests.get(url)
