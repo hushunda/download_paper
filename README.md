@@ -9,6 +9,10 @@
 3.  下载ECCV paper  `python download_eccv.py --save_root paper --url  https://www.ecva.net/papers.php --num_works 16`
 4.  下载CVPR paper  `python download_cvpr.py --save_root paper --url https://openaccess.thecvf.com/CVPR2019?day=2019-06-18 --num_works 16`
 
+## 下载论文
+已经打包好的网盘论文。  
+链接: https://pan.baidu.com/s/17FVfOI6mv9nYg3--dkeM-A 提取码: 5gfw 
+
 ## 问题
 1. ‘’‘Firefox profile cannot be loaded. It may be missing or inaccessible’‘’  
     使用自带的firefox导致的版本不对，sudo apt install firefox 
